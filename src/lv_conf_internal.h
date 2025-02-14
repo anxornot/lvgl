@@ -284,22 +284,22 @@
     #endif
 #endif
 #if LV_USE_OS == LV_OS_FREERTOS
-	/*
-	 * Unblocking an RTOS task with a direct notification is 45% faster and uses less RAM
-	 * than unblocking a task using an intermediary object such as a binary semaphore.
-	 * RTOS task notifications can only be used when there is only one task that can be the recipient of the event.
-	 */
-	#ifndef LV_USE_FREERTOS_TASK_NOTIFY
-	    #ifdef LV_KCONFIG_PRESENT
-	        #ifdef CONFIG_LV_USE_FREERTOS_TASK_NOTIFY
-	            #define LV_USE_FREERTOS_TASK_NOTIFY CONFIG_LV_USE_FREERTOS_TASK_NOTIFY
-	        #else
-	            #define LV_USE_FREERTOS_TASK_NOTIFY 0
-	        #endif
-	    #else
-	        #define LV_USE_FREERTOS_TASK_NOTIFY 1
-	    #endif
-	#endif
+    /*
+     * Unblocking an RTOS task with a direct notification is 45% faster and uses less RAM
+     * than unblocking a task using an intermediary object such as a binary semaphore.
+     * RTOS task notifications can only be used when there is only one task that can be the recipient of the event.
+     */
+    #ifndef LV_USE_FREERTOS_TASK_NOTIFY
+        #ifdef LV_KCONFIG_PRESENT
+            #ifdef CONFIG_LV_USE_FREERTOS_TASK_NOTIFY
+                #define LV_USE_FREERTOS_TASK_NOTIFY CONFIG_LV_USE_FREERTOS_TASK_NOTIFY
+            #else
+                #define LV_USE_FREERTOS_TASK_NOTIFY 0
+            #endif
+        #else
+            #define LV_USE_FREERTOS_TASK_NOTIFY 1
+        #endif
+    #endif
 #endif
 
 /*========================
@@ -1531,7 +1531,7 @@
     #ifdef CONFIG_LV_USE_PRIVATE_API
         #define LV_USE_PRIVATE_API CONFIG_LV_USE_PRIVATE_API
     #else
-        #define LV_USE_PRIVATE_API		0
+        #define LV_USE_PRIVATE_API      0
     #endif
 #endif
 
@@ -2529,7 +2529,9 @@
 
 /* File system interfaces for common APIs */
 
-/** Setting a default driver letter allows skipping the driver prefix in filepaths. */
+/** Setting a default driver letter allows skipping the driver prefix in filepaths.
+ *  Documentation about how to use the below driver-identifier letters can be found at
+ *  https://docs.lvgl.io/master/details/main-components/fs.html#lv-fs-identifier-letters . */
 #ifndef LV_FS_DEFAULT_DRIVER_LETTER
     #ifdef CONFIG_LV_FS_DEFAULT_DRIVER_LETTER
         #define LV_FS_DEFAULT_DRIVER_LETTER CONFIG_LV_FS_DEFAULT_DRIVER_LETTER
@@ -2551,7 +2553,7 @@
         #ifdef CONFIG_LV_FS_STDIO_LETTER
             #define LV_FS_STDIO_LETTER CONFIG_LV_FS_STDIO_LETTER
         #else
-            #define LV_FS_STDIO_LETTER '\0'     /**< Set an upper cased letter on which the drive will accessible (e.g. 'A') */
+            #define LV_FS_STDIO_LETTER '\0'     /**< Set an upper-case driver-identifier letter for this driver (e.g. 'A'). */
         #endif
     #endif
     #ifndef LV_FS_STDIO_PATH
@@ -2583,7 +2585,7 @@
         #ifdef CONFIG_LV_FS_POSIX_LETTER
             #define LV_FS_POSIX_LETTER CONFIG_LV_FS_POSIX_LETTER
         #else
-            #define LV_FS_POSIX_LETTER '\0'     /**< Set an upper cased letter on which the drive will accessible (e.g. 'A') */
+            #define LV_FS_POSIX_LETTER '\0'     /**< Set an upper-case driver-identifier letter for this driver (e.g. 'A'). */
         #endif
     #endif
     #ifndef LV_FS_POSIX_PATH
@@ -2615,7 +2617,7 @@
         #ifdef CONFIG_LV_FS_WIN32_LETTER
             #define LV_FS_WIN32_LETTER CONFIG_LV_FS_WIN32_LETTER
         #else
-            #define LV_FS_WIN32_LETTER '\0'     /**< Set an upper cased letter on which the drive will accessible (e.g. 'A') */
+            #define LV_FS_WIN32_LETTER '\0'     /**< Set an upper-case driver-identifier letter for this driver (e.g. 'A'). */
         #endif
     #endif
     #ifndef LV_FS_WIN32_PATH
@@ -2647,7 +2649,7 @@
         #ifdef CONFIG_LV_FS_FATFS_LETTER
             #define LV_FS_FATFS_LETTER CONFIG_LV_FS_FATFS_LETTER
         #else
-            #define LV_FS_FATFS_LETTER '\0'     /**< Set an upper cased letter on which the drive will accessible (e.g. 'A') */
+            #define LV_FS_FATFS_LETTER '\0'     /**< Set an upper-case driver-identifier letter for this driver (e.g. 'A'). */
         #endif
     #endif
     #ifndef LV_FS_FATFS_PATH
@@ -2679,7 +2681,7 @@
         #ifdef CONFIG_LV_FS_MEMFS_LETTER
             #define LV_FS_MEMFS_LETTER CONFIG_LV_FS_MEMFS_LETTER
         #else
-            #define LV_FS_MEMFS_LETTER '\0'     /**< Set an upper cased letter on which the drive will accessible (e.g. 'A') */
+            #define LV_FS_MEMFS_LETTER '\0'     /**< Set an upper-case driver-identifier letter for this driver (e.g. 'A'). */
         #endif
     #endif
 #endif
@@ -2697,14 +2699,14 @@
         #ifdef CONFIG_LV_FS_LITTLEFS_LETTER
             #define LV_FS_LITTLEFS_LETTER CONFIG_LV_FS_LITTLEFS_LETTER
         #else
-            #define LV_FS_LITTLEFS_LETTER '\0'  /**< Set an upper cased letter on which the drive will accessible (e.g. 'A') */
+            #define LV_FS_LITTLEFS_LETTER '\0'  /**< Set an upper-case driver-identifier letter for this driver (e.g. 'A'). */
         #endif
     #endif
     #ifndef LV_FS_LITTLEFS_PATH
         #ifdef CONFIG_LV_FS_LITTLEFS_PATH
             #define LV_FS_LITTLEFS_PATH CONFIG_LV_FS_LITTLEFS_PATH
         #else
-            #define LV_FS_LITTLEFS_PATH ""         /**< Set the working directory. File/directory paths will be appended to it. */
+            #define LV_FS_LITTLEFS_PATH ""      /**< Set the working directory. File/directory paths will be appended to it. */
         #endif
     #endif
 #endif
@@ -2722,14 +2724,14 @@
         #ifdef CONFIG_LV_FS_ARDUINO_ESP_LITTLEFS_LETTER
             #define LV_FS_ARDUINO_ESP_LITTLEFS_LETTER CONFIG_LV_FS_ARDUINO_ESP_LITTLEFS_LETTER
         #else
-            #define LV_FS_ARDUINO_ESP_LITTLEFS_LETTER '\0'     /**< Set an upper cased letter on which the drive will accessible (e.g. 'A') */
+            #define LV_FS_ARDUINO_ESP_LITTLEFS_LETTER '\0'  /**< Set an upper-case driver-identifier letter for this driver (e.g. 'A'). */
         #endif
     #endif
     #ifndef LV_FS_ARDUINO_ESP_LITTLEFS_PATH
         #ifdef CONFIG_LV_FS_ARDUINO_ESP_LITTLEFS_PATH
             #define LV_FS_ARDUINO_ESP_LITTLEFS_PATH CONFIG_LV_FS_ARDUINO_ESP_LITTLEFS_PATH
         #else
-            #define LV_FS_ARDUINO_ESP_LITTLEFS_PATH ""         /**< Set the working directory. File/directory paths will be appended to it. */
+            #define LV_FS_ARDUINO_ESP_LITTLEFS_PATH ""      /**< Set the working directory. File/directory paths will be appended to it. */
         #endif
     #endif
 #endif
@@ -2747,14 +2749,14 @@
         #ifdef CONFIG_LV_FS_ARDUINO_SD_LETTER
             #define LV_FS_ARDUINO_SD_LETTER CONFIG_LV_FS_ARDUINO_SD_LETTER
         #else
-            #define LV_FS_ARDUINO_SD_LETTER '\0'          /**< Set an upper cased letter on which the drive will accessible (e.g. 'A') */
+            #define LV_FS_ARDUINO_SD_LETTER '\0'  /**< Set an upper-case driver-identifier letter for this driver (e.g. 'A'). */
         #endif
     #endif
     #ifndef LV_FS_ARDUINO_SD_PATH
         #ifdef CONFIG_LV_FS_ARDUINO_SD_PATH
             #define LV_FS_ARDUINO_SD_PATH CONFIG_LV_FS_ARDUINO_SD_PATH
         #else
-            #define LV_FS_ARDUINO_SD_PATH ""         /**< Set the working directory. File/directory paths will be appended to it. */
+            #define LV_FS_ARDUINO_SD_PATH ""      /**< Set the working directory. File/directory paths will be appended to it. */
         #endif
     #endif
 #endif
@@ -2772,7 +2774,7 @@
         #ifdef CONFIG_LV_FS_UEFI_LETTER
             #define LV_FS_UEFI_LETTER CONFIG_LV_FS_UEFI_LETTER
         #else
-            #define LV_FS_UEFI_LETTER '\0'          /**< Set an upper cased letter on which the drive will accessible (e.g. 'A') */
+            #define LV_FS_UEFI_LETTER '\0'      /**< Set an upper-case driver-identifier letter for this driver (e.g. 'A'). */
         #endif
     #endif
 #endif
@@ -3072,7 +3074,7 @@
         #ifdef CONFIG_LV_SYSMON_GET_IDLE
             #define LV_SYSMON_GET_IDLE CONFIG_LV_SYSMON_GET_IDLE
         #else
-            #define LV_SYSMON_GET_IDLE lv_timer_get_idle
+            #define LV_SYSMON_GET_IDLE lv_os_get_idle_percent
         #endif
     #endif
 
@@ -3507,7 +3509,7 @@
     #ifdef CONFIG_LV_USE_XML
         #define LV_USE_XML CONFIG_LV_USE_XML
     #else
-        #define LV_USE_XML	0
+        #define LV_USE_XML    0
     #endif
 #endif
 
@@ -4176,17 +4178,17 @@
     #ifdef CONFIG_LV_USE_DEMO_EBIKE
         #define LV_USE_DEMO_EBIKE CONFIG_LV_USE_DEMO_EBIKE
     #else
-        #define LV_USE_DEMO_EBIKE			0
+        #define LV_USE_DEMO_EBIKE           0
     #endif
 #endif
 #if LV_USE_DEMO_EBIKE
-	#ifndef LV_DEMO_EBIKE_PORTRAIT
-	    #ifdef CONFIG_LV_DEMO_EBIKE_PORTRAIT
-	        #define LV_DEMO_EBIKE_PORTRAIT CONFIG_LV_DEMO_EBIKE_PORTRAIT
-	    #else
-	        #define LV_DEMO_EBIKE_PORTRAIT  0    /*0: for 480x270..480x320, 1: for 480x800..720x1280*/
-	    #endif
-	#endif
+    #ifndef LV_DEMO_EBIKE_PORTRAIT
+        #ifdef CONFIG_LV_DEMO_EBIKE_PORTRAIT
+            #define LV_DEMO_EBIKE_PORTRAIT CONFIG_LV_DEMO_EBIKE_PORTRAIT
+        #else
+            #define LV_DEMO_EBIKE_PORTRAIT  0    /*0: for 480x270..480x320, 1: for 480x800..720x1280*/
+        #endif
+    #endif
 #endif
 
 /** High-resolution demo */
